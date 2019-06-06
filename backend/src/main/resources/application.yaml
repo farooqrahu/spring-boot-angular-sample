@@ -27,3 +27,6 @@ jwt:
 
 rest-api:
   url: /api/v1
+  auth-url: /api/v1/auth
+  admin-url: /api/v1/admin
+  protected-url: /api/v1/protected
