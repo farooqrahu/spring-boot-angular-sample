@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationEntryPoint entryPointUnauthorizedHandler;
 
     @Value("${rest-api.url}")
-    private String URL;
+    private String API_URL;
     private final String LOGIN_ENDPOINT = "/auth/login";
     private final String ADMIN_ENDPOINT = "/admin/**";
     private final String PROTECTED_ENDPOINT = "/protected/**";
@@ -42,9 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(URL + LOGIN_ENDPOINT).permitAll()
-                .antMatchers(URL + ADMIN_ENDPOINT).hasRole("ADMIN")
-                .antMatchers(URL + PROTECTED_ENDPOINT).hasRole("USER")
+                .antMatchers("/", "/*.js", API_URL + LOGIN_ENDPOINT).permitAll()
+                .antMatchers(API_URL).permitAll()
+                .antMatchers(API_URL + ADMIN_ENDPOINT).hasRole("ADMIN")
+                .antMatchers(API_URL + PROTECTED_ENDPOINT).hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
