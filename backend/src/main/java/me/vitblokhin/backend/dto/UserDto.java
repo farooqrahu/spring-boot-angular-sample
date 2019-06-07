@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserDto  extends AbstractDto implements Serializable {
+public class UserDto extends AbstractDto implements Serializable {
     @NotEmpty
     private String username;
     @NotEmpty

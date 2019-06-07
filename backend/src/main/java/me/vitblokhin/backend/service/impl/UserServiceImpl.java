@@ -1,5 +1,6 @@
 package me.vitblokhin.backend.service.impl;
 
+import me.vitblokhin.backend.dto.PageDto;
 import me.vitblokhin.backend.dto.UserDto;
 import me.vitblokhin.backend.dto.filter.AbstractFilter;
 import me.vitblokhin.backend.enums.Status;
@@ -17,9 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -38,13 +37,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getPage(AbstractFilter filter) {
+    public PageDto<UserDto, User> getPage(AbstractFilter filter) {
 
-        List<UserDto> userList = userRepository
-                .findAll(PageRequest.of(filter.getPage(), filter.getSize()))
-                .getContent().stream().map(UserDto::new).collect(Collectors.toList());
+        PageDto<UserDto, User> page = new PageDto<>(userRepository
+                .findAll(PageRequest.of(filter.getPage(), filter.getSize())), UserDto::new);
 
-        return userList;
+        return page;
     }
 
     @Override

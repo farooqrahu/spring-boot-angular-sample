@@ -1,12 +1,12 @@
 package me.vitblokhin.backend.service;
 
+import me.vitblokhin.backend.dto.PageDto;
 import me.vitblokhin.backend.dto.UserDto;
 import me.vitblokhin.backend.dto.filter.AbstractFilter;
-
-import java.util.List;
+import me.vitblokhin.backend.model.User;
 
 public interface UserService {
-    List<UserDto> getPage(AbstractFilter filter);
+    PageDto<UserDto, User> getPage(AbstractFilter filter);
 
     UserDto findById(Long id);
 
