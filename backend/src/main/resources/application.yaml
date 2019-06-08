@@ -18,6 +18,9 @@ spring:
       ddl-auto: validate
   liquibase:
     change-log: classpath:/migration/changelog-master.xml
+  jackson:
+    mapper:
+      DEFAULT_VIEW_INCLUSION: true
 
 
 jwt:

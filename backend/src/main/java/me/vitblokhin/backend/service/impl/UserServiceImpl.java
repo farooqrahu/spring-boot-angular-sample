@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Transactional
@@ -96,6 +97,13 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         this.get(id);
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDto findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(UserDto::new)
+                .orElseThrow(() -> new ItemNotFoundException("User not found"));
     }
 
     private User get(Long id) {

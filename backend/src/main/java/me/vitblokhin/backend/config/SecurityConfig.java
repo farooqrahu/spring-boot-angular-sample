@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -44,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/*.js", API_URL + LOGIN_ENDPOINT).permitAll()
                 .antMatchers(API_URL).permitAll()
+                .antMatchers(HttpMethod.POST, API_URL + "/user").anonymous()
                 .antMatchers(API_URL + ADMIN_ENDPOINT).hasRole("ADMIN")
                 .antMatchers(API_URL + PROTECTED_ENDPOINT).hasRole("USER")
                 .anyRequest().authenticated()

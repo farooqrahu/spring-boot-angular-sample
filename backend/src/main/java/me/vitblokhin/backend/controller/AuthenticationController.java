@@ -31,10 +31,10 @@ public class AuthenticationController {
     @Autowired
     public AuthenticationController(AuthenticationManager authenticationManager,
                                         JwtTokenProvider jwtTokenProvider,
-                                        UserDetailsService userDetailsService) {
+                                        UserDetailsService jwtUserDetailsService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.jwtUserDetailsService = userDetailsService;
+        this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
     @PostMapping("/login")

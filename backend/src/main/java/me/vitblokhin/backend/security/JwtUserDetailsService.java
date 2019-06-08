@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Log4j2
-@Service("userDetailsService")
+@Service("jwtUserDetailsService")
 public class JwtUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
