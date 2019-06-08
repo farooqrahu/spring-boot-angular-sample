@@ -3,9 +3,11 @@ package me.vitblokhin.backend.controller;
 import me.vitblokhin.backend.dto.ExceptionDto;
 import me.vitblokhin.backend.exception.ItemAlreadyExistsException;
 import me.vitblokhin.backend.exception.ItemNotFoundException;
+import me.vitblokhin.backend.exception.ServerException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -31,8 +33,17 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 request);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> serverErrorHandler(Exception ex, final WebRequest request) {
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> authorizeErrorHandler(BadCredentialsException ex, final WebRequest request) {
+        return handleExceptionInternal(ex,
+                new ExceptionDto(ex.getMessage()),
+                new HttpHeaders(),
+                HttpStatus.UNAUTHORIZED,
+                request);
+    }
+
+    @ExceptionHandler({Exception.class, ServerException.class})
+    public ResponseEntity<Object> errorHandler(Exception ex, final WebRequest request) {
         return handleExceptionInternal(ex,
                 new ExceptionDto(ex.getMessage()),
                 new HttpHeaders(),

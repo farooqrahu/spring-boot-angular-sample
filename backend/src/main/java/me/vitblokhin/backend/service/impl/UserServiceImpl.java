@@ -6,6 +6,7 @@ import me.vitblokhin.backend.dto.filter.AbstractFilter;
 import me.vitblokhin.backend.enums.Status;
 import me.vitblokhin.backend.exception.ItemAlreadyExistsException;
 import me.vitblokhin.backend.exception.ItemNotFoundException;
+import me.vitblokhin.backend.exception.ServerException;
 import me.vitblokhin.backend.model.Role;
 import me.vitblokhin.backend.model.User;
 import me.vitblokhin.backend.repository.RoleRepository;
@@ -15,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+@Transactional
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
@@ -57,7 +60,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Role role = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new ItemNotFoundException("Default role for user not found"));
+                .orElseThrow(() -> new ServerException("User creation fail: default role for user not found"));
         Set<Role> userRoles = new HashSet<>();
         userRoles.add(role);
 
