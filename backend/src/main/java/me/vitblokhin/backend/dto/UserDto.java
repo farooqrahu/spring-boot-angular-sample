@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import me.vitblokhin.backend.dto.viewscope.DetailScope;
 import me.vitblokhin.backend.model.User;
 
 import javax.validation.constraints.NotEmpty;
@@ -26,7 +27,7 @@ public class UserDto extends AbstractDto implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @JsonView(View.Admin.class)
+    @JsonView(DetailScope.Admin.class)
     private Set<RoleDto> roles;
 
     public UserDto() {
