@@ -7,6 +7,7 @@ import me.vitblokhin.backend.enums.Status;
 import me.vitblokhin.backend.exception.ItemAlreadyExistsException;
 import me.vitblokhin.backend.exception.ItemNotFoundException;
 import me.vitblokhin.backend.exception.ServerException;
+import me.vitblokhin.backend.exception.StatusChangeException;
 import me.vitblokhin.backend.model.Role;
 import me.vitblokhin.backend.model.User;
 import me.vitblokhin.backend.repository.RoleRepository;
@@ -20,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Transactional
@@ -104,6 +104,30 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username)
                 .map(UserDto::new)
                 .orElseThrow(() -> new ItemNotFoundException("User not found"));
+    }
+
+    @Override
+    public void blockUser(Long id) {
+        User user = this.get(id);
+        if(user.getStatus().equals(Status.ACTIVE)){
+            user.setStatus(Status.NOT_ACTIVE);
+            user.setUpdatedAt(LocalDateTime.now());
+            userRepository.save(user);
+        } else {
+            throw new StatusChangeException("User is already blocked, or user is deleted");
+        }
+    }
+
+    @Override
+    public void unblockUser(Long id) {
+        User user = this.get(id);
+        if(user.getStatus().equals(Status.NOT_ACTIVE)){
+            user.setStatus(Status.ACTIVE);
+            user.setUpdatedAt(LocalDateTime.now());
+            userRepository.save(user);
+        } else {
+            throw new StatusChangeException("User is already unblocked, or user is deleted");
+        }
     }
 
     private User get(Long id) {

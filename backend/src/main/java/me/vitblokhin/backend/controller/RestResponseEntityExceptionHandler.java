@@ -4,6 +4,7 @@ import me.vitblokhin.backend.dto.ExceptionDto;
 import me.vitblokhin.backend.exception.ItemAlreadyExistsException;
 import me.vitblokhin.backend.exception.ItemNotFoundException;
 import me.vitblokhin.backend.exception.ServerException;
+import me.vitblokhin.backend.exception.StatusChangeException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 request);
     }
 
-    @ExceptionHandler(ItemAlreadyExistsException.class)
-    public ResponseEntity<Object> alreadyExistsHandler(ItemAlreadyExistsException ex, final WebRequest request) {
+    @ExceptionHandler({ItemAlreadyExistsException.class, StatusChangeException.class})
+    public ResponseEntity<Object> alreadyExistsHandler(RuntimeException ex, final WebRequest request) {
         return handleExceptionInternal(ex,
                 new ExceptionDto(ex.getMessage()),
                 new HttpHeaders(),

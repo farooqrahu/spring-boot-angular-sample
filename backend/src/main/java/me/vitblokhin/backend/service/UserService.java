@@ -17,4 +17,7 @@ public interface UserService {
     void delete(Long id);
 
     UserDto findByUsername(String username);
+
+    void blockUser(Long id);
+    void unblockUser(Long id);
 } // interface UserService

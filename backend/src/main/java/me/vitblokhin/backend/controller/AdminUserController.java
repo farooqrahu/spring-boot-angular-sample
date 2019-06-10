@@ -47,4 +47,20 @@ public class AdminUserController {
         return ResponseEntity
                 .ok(userService.getPage(filter));
     }
+
+    @GetMapping(RESOURCE_URL + "/{id}/block")
+    public ResponseEntity<UserDto> block(@PathVariable("id") Long id) {
+
+        userService.blockUser(id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(RESOURCE_URL + "/{id}/unblock")
+    public ResponseEntity<UserDto> unblock(@PathVariable("id") Long id) {
+
+        userService.unblockUser(id);
+
+        return ResponseEntity.ok().build();
+    }
 } // class AdminUserController
