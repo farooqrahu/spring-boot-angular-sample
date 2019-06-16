@@ -1,0 +1,48 @@
+<h4>
+  Log in
+</h4>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div class="from-group mb-2">
+    <label for="username">Username</label>
+    <input class="form-control" [ngClass]="{ 'is-invalid' : username.invalid && username.touched }"
+           id="username"
+           formControlName="username"
+           placeholder="Username">
+    <div class="invalid-feedback" *ngIf="username.invalid && username.touched">
+      <span *ngIf="username.errors.required">
+        This field is required
+      </span>
+      <span *ngIf="username.errors.minlength">Minimal length is {{ username.errors.minlength.requiredLength }}
+        characters. You entered: {{ username.errors.minlength.actualLength }}
+      </span>
+    </div>
+  </div>
+
+  <div class="from-group mb-2">
+    <label for="password">Password</label>
+    <input class="form-control" [ngClass]="{ 'is-invalid' : password.invalid && password.touched }"
+           type="password"
+           id="password"
+           formControlName="password"
+           placeholder="Password">
+    <div class="invalid-feedback" *ngIf="password.invalid && password.touched">
+      <span *ngIf="password.errors.required">This field is required</span>
+      <span *ngIf="password.errors.minlength">Minimal length is {{ password.errors.minlength.requiredLength }}
+        characters. You entered: {{ password.errors.minlength.actualLength }}
+      </span>
+    </div>
+  </div>
+
+  <ngb-alert *ngIf="message" [type]="message.type"> {{message.text}}</ngb-alert>
+
+  <div class="form-group mb-2">
+    <button type="submit" class="btn btn-primary"
+            [disabled]="loginForm.invalid">
+      Sign in
+    </button>
+  </div>
+  <p class="text-muted text-xs-center">
+    No account? <a [routerLink]="'/registration'">Sign up!</a>
+  </p>
+</form>
