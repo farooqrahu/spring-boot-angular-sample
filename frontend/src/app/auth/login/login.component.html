@@ -1,11 +1,11 @@
-<h4>
+<h2>
   Log in
-</h4>
+</h2>
 
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <div class="from-group mb-2">
+  <div class="from-group my-3">
     <label for="username">Username</label>
-    <input class="form-control" [ngClass]="{ 'is-invalid' : username.invalid && username.touched }"
+    <input class="form-control form-control" [ngClass]="{ 'is-invalid' : username.invalid && username.touched }"
            id="username"
            formControlName="username"
            placeholder="Username">
@@ -19,9 +19,9 @@
     </div>
   </div>
 
-  <div class="from-group mb-2">
+  <div class="from-group my-3">
     <label for="password">Password</label>
-    <input class="form-control" [ngClass]="{ 'is-invalid' : password.invalid && password.touched }"
+    <input class="form-control form-control" [ngClass]="{ 'is-invalid' : password.invalid && password.touched }"
            type="password"
            id="password"
            formControlName="password"
@@ -34,15 +34,16 @@
     </div>
   </div>
 
-  <ngb-alert *ngIf="message" [type]="message.type"> {{message.text}}</ngb-alert>
-
-  <div class="form-group mb-2">
-    <button type="submit" class="btn btn-primary"
+  <div class="form-group my-3">
+    <button type="submit" class="btn btn-primary btn-block"
             [disabled]="loginForm.invalid">
-      Sign in
+      Log in
     </button>
   </div>
-  <p class="text-muted text-xs-center">
-    No account? <a [routerLink]="'/registration'">Sign up!</a>
-  </p>
+
+  <ngb-alert *ngIf="message" [type]="message.type"> {{message.text}}</ngb-alert>
 </form>
+
+<p class="text-muted text-center">
+  No account? <a [routerLink]="'/registration'">Register!</a>
+</p>

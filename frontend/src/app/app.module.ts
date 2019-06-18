@@ -16,11 +16,11 @@ import { AuthGuard } from "./shared/services/auth.guard";
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     AuthModule,
-    SharedModule
+    SharedModule,
+    AppRoutingModule
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
