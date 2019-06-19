@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 import { BaseApi } from "../core/base-api";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { AuthRequest } from "../models/auth-request.model";
+import { noUndefined } from "@angular/compiler/src/util";
+import { isNullOrUndefined } from "util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends BaseApi {
+  redirectUrl: string;
 
   constructor(public http: HttpClient) {
     super(http);
@@ -22,7 +25,7 @@ export class AuthService extends BaseApi {
   }
 
   isLoggedIn(): boolean {
-    return window.localStorage.getItem("auth") !== null;
+    return !isNullOrUndefined(window.localStorage.getItem("token"));
   }
 
   handleError(error: HttpErrorResponse) {

@@ -9,6 +9,7 @@ import { SharedModule } from "./shared/shared.module";
 import { AuthModule } from "./auth/auth.module";
 import { AuthService } from "./shared/services/auth.service";
 import { AuthGuard } from "./shared/services/auth.guard";
+import { MainModule } from "./main/main.module";
 
 @NgModule({
   declarations: [
@@ -18,8 +19,9 @@ import { AuthGuard } from "./shared/services/auth.guard";
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    AuthModule,
     SharedModule,
+    MainModule,
+    AuthModule,
     AppRoutingModule
   ],
   providers: [AuthService, AuthGuard],

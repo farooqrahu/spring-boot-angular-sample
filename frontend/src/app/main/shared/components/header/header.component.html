@@ -1,0 +1,8 @@
+<nav class="navbar fixed-top navbar-expand navbar-dark bg-dark">
+  <a class="navbar-brand" [routerLink]="['/']">Navbar</a>
+
+  <div class="navbar-nav ml-auto">
+    <a class="nav-link mr-3" routerLinkActive="active" [routerLink]="['/user']">{{ username }}</a>
+    <button class="btn btn-outline-danger" (click)="onLogout()">Logout</button>
+  </div>
+</nav>

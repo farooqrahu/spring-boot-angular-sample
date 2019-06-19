@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
               window.localStorage.setItem("username", authResponse.username);
               window.localStorage.setItem("token", authResponse.token);
               show('Successfully logged in');
-              router.navigate(['/home']);
+              router.navigate(['/index']);
             }
           },
           error(err) {

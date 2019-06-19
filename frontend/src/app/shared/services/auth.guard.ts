@@ -21,17 +21,28 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivate(next: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if (this.authService.isLoggedIn()) {
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-      return false;
-    }
+    let url = state.url;
+    console.log("Requested url: " + url);
+    return this.checkLoggedIn(url);
   }
 
   canActivateChild(next: ActivatedRouteSnapshot,
                    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+    return this.canActivate(next, state);
+  }
+
+  private checkLoggedIn(url: string): boolean {
+    if (this.authService.isLoggedIn()) {
+      console.log("Access granted");
+      //this.router.navigate([url]);
+      return true;
+    }
+
+    this.authService.redirectUrl = url;
+
+    console.log("Access denied, redirect to login page");
+    this.router.navigate(['/login']);
+    return false;
   }
 
 }
