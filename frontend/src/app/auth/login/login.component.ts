@@ -4,7 +4,8 @@ import { Router } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { AuthResponse } from "../../shared/models/auth-response.model";
 import { AuthRequest } from "../../shared/models/auth-request.model";
-import { Message } from "../../shared/models/message.model";
+import { Alert } from "../../shared/models/alert.model";
+import { AlertService } from "../../shared/services/alert.service";
 
 @Component({
   selector: 'app-login',
@@ -14,14 +15,13 @@ import { Message } from "../../shared/models/message.model";
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  message: Message;
 
   constructor(private authService: AuthService,
+              private alertService: AlertService,
               private router: Router) {
   }
 
   ngOnInit() {
-    this.message = null;
     this.loginForm = new FormGroup({
       'username': new FormControl('', [Validators.required, Validators.minLength(4)]),
       'password': new FormControl('', [Validators.required, Validators.minLength(6)])
@@ -30,38 +30,28 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     const formData = this.loginForm.value;
-    const show = this.showMessage.bind(this);
-    const router = this.router;
 
     this.authService.login(new AuthRequest(formData.username, formData.password))
-      .subscribe(
-        {
-          next(authResponse: AuthResponse) {
-            if (authResponse !== undefined) {
-              window.localStorage.setItem("username", authResponse.username);
-              window.localStorage.setItem("token", authResponse.token);
-              show('Successfully logged in');
-              router.navigate(['/index']);
-            }
-          },
-          error(err) {
-            show(err.message, "danger");
+      .subscribe({
+        next: (authResponse: AuthResponse) => {
+          if (authResponse !== undefined) {
+            window.localStorage.setItem("username", authResponse.username);
+            window.localStorage.setItem("token", authResponse.token);
+            this.alertService.showAlert(new Alert('Successfully logged in'));
+            this.router.navigate(['/index']);
           }
-        });
+        },
+        error: (err) => {
+          this.alertService.showAlert(new Alert(err.message, "danger"));
+        }
+      });
   }
 
-  private showMessage(text: string, type: string = "info") {
-    this.message = new Message(text, type);
-    window.setTimeout(() => {
-      this.message = null;
-    }, 2500);
-  }
-
-  get username(){
+  get username() {
     return this.loginForm.get('username');
   }
 
-  get password(){
+  get password() {
     return this.loginForm.get('password');
   }
 }

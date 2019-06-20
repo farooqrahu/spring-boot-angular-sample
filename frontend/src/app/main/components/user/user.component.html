@@ -1,8 +1,56 @@
-<div class="card">
-  <div class="card-body">
-    <p class="card-text">
-      user works!
-    </p>
-  </div>
-</div>
+<div class="card-deck">
+  <div class="card">
+    <div class="card-body" *ngIf="isLoaded">
+      <h5 class="card-title">{{ user.username }}</h5>
+      <p class="card-text">First name: {{ user.firstName }}</p>
+      <p class="card-text">Last name: {{ user.lastName }}</p>
+      <p class="card-text">Email: {{ user.email }}</p>
+    </div>
 
+    <div class="card-body" *ngIf="!isLoaded">
+      <h5 class="card-title">Loading...</h5>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="isLoaded">
+    <div class="card-body">
+      <h5 class="card-title">Edit user info</h5>
+      <form [formGroup]="userEditForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group my-3">
+          <label for="firstName">First name</label>
+          <input class="form-control" [ngClass]="{ 'is-invalid' : firstName.invalid && firstName.touched }"
+                 id="firstName"
+                 formControlName="firstName"
+                 placeholder="First name">
+          <div class="invalid-feedback" *ngIf="firstName.invalid && firstName.touched">
+          <span *ngIf="firstName.errors.required">
+            This field is required
+          </span>
+          </div>
+        </div>
+        <div class="form-group my-3">
+          <label for="lastName">Last name</label>
+          <input class="form-control" [ngClass]="{ 'is-invalid' : lastName.invalid && lastName.touched }"
+                 id="lastName"
+                 formControlName="lastName"
+                 placeholder="Last name">
+          <div class="invalid-feedback" *ngIf="lastName.invalid && lastName.touched">
+          <span *ngIf="lastName.errors.required">
+            This field is required
+          </span>
+          </div>
+        </div>
+
+        <div class="form-group my-3">
+          <button type="submit" class="btn btn-primary btn-block"
+                  [disabled]="userEditForm.invalid">
+            Edit
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>

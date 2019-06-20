@@ -13,7 +13,6 @@ import { SidebarComponent } from './shared/components/sidebar/sidebar.component'
 @NgModule({
   declarations: [HomeComponent, UserComponent, IndexComponent, MainComponent, HeaderComponent, SidebarComponent],
   imports: [
-    CommonModule,
     SharedModule,
     MainRoutingModule
   ]

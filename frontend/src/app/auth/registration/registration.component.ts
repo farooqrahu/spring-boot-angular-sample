@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Message } from "../../shared/models/message.model";
-import { UserBase } from "../../shared/models/user-base";
+import { Alert } from "../../shared/models/alert.model";
 import { PersonalService } from "../../shared/services/personal.service";
 import { Router } from "@angular/router";
+import { User } from "../../shared/models/user.model";
+import { AlertService } from "../../shared/services/alert.service";
 
 @Component({
   selector: 'app-registration',
@@ -13,14 +14,13 @@ import { Router } from "@angular/router";
 export class RegistrationComponent implements OnInit {
 
   registrationForm: FormGroup;
-  message: Message;
 
   constructor(private personalService: PersonalService,
+              private alertService: AlertService,
               private router: Router) {
   }
 
   ngOnInit() {
-    this.message = null;
     this.registrationForm = new FormGroup({
       'username': new FormControl('', [Validators.required, Validators.minLength(4)]),
       'firstName': new FormControl('', [Validators.required]),
@@ -32,35 +32,26 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit() {
     const formData = this.registrationForm.value;
-    const show = this.showMessage.bind(this);
-    const router = this.router;
-
-    this.personalService.registerUser(new UserBase(
+    const user = new User(
       formData.username,
       formData.firstName,
       formData.lastName,
       formData.email,
       formData.password
-    ))
-      .subscribe(
-        {
-          next(user: UserBase) {
-            if (user !== undefined) {
-              show('User successfully created');
-              router.navigate(['/login']);
-            }
-          },
-          error(err) {
-            show(err.message, "danger");
-          }
-        });
-  }
+    );
 
-  private showMessage(text: string, type: string = "info") {
-    this.message = new Message(text, type);
-    window.setTimeout(() => {
-      this.message = null;
-    }, 2500);
+    this.personalService.registerUser(user)
+      .subscribe({
+        next: (user: User) => {
+          if (user !== undefined) {
+            this.alertService.showAlert(new Alert('User successfully created'));
+            this.router.navigate(['/login']);
+          }
+        },
+        error: (err) => {
+          this.alertService.showAlert(new Alert(err.message, "danger"));
+        }
+      });
   }
 
   get username() {

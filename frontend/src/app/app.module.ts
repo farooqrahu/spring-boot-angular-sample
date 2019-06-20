@@ -10,6 +10,8 @@ import { AuthModule } from "./auth/auth.module";
 import { AuthService } from "./shared/services/auth.service";
 import { AuthGuard } from "./shared/services/auth.guard";
 import { MainModule } from "./main/main.module";
+import { PersonalService } from "./shared/services/personal.service";
+import { AlertService } from "./shared/services/alert.service";
 
 @NgModule({
   declarations: [
@@ -24,7 +26,7 @@ import { MainModule } from "./main/main.module";
     AuthModule,
     AppRoutingModule
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

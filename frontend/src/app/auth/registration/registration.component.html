@@ -79,9 +79,9 @@
       Register
     </button>
   </div>
-
-  <ngb-alert *ngIf="message" [type]="message.type"> {{message.text}}</ngb-alert>
 </form>
+
+<app-alert></app-alert>
 
 <p class="text-muted text-center">
   Back to <a [routerLink]="'/login'">Login page</a>
