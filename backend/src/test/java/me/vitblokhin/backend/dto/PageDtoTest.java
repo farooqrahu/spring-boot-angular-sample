@@ -35,7 +35,7 @@ public class PageDtoTest {
     @Test
     public void testConstructor(){
         Page<Role> testArgumentPage = new PageImpl<>(roleList);
-        PageDto<RoleDto, Role> testDtoPage = new PageDto<>(testArgumentPage, RoleDto::new);
+        PageDto<RoleDto> testDtoPage = new PageDto<>(testArgumentPage.map(RoleDto::new));
 
         assertEquals(0, testDtoPage.getPageNumber());
         assertEquals(1, testDtoPage.getTotalPages());
@@ -46,7 +46,7 @@ public class PageDtoTest {
     public void testConstructorOfEmptyPage(){
         Pageable pageable = PageRequest.of(testFilter.getPage(), testFilter.getSize());
         Page<Role> testArgumentPage = Page.empty(pageable);
-        PageDto<RoleDto, Role> testDtoPage = new PageDto<>(testArgumentPage, RoleDto::new);
+        PageDto<RoleDto> testDtoPage = new PageDto<>(testArgumentPage.map(RoleDto::new));
 
         assertEquals(0, testDtoPage.getPageNumber());
         assertEquals(0, testDtoPage.getTotalPages());

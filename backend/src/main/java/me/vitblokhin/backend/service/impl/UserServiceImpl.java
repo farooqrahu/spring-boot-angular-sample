@@ -41,12 +41,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageDto<UserDto, User> getPage(AbstractFilter filter) {
+    public PageDto<UserDto> getPage(AbstractFilter filter) {
 
-        PageDto<UserDto, User> page = new PageDto<>(userRepository
-                .findAll(PageRequest.of(filter.getPage(), filter.getSize())), UserDto::new);
-
-        return page;
+        return new PageDto<>(userRepository
+                .findAll(PageRequest.of(filter.getPage(), filter.getSize())).map(UserDto::new));
     }
 
     @Override
