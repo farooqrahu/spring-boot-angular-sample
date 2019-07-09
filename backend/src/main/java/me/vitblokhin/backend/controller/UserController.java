@@ -27,13 +27,13 @@ public class UserController {
         this.userService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @JsonView(DetailScope.Basic.class)
     @PostMapping(RESOURCE_URL)
     public ResponseEntity<UserDto> registration(@Valid @RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.create(userDto));
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @JsonView(DetailScope.Basic.class)
     @GetMapping(RESOURCE_URL)
     public ResponseEntity<UserDto> get(HttpServletRequest request) {
@@ -44,7 +44,7 @@ public class UserController {
         return ResponseEntity
                 .ok(userService.findByUsername(username));
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @JsonView(DetailScope.Basic.class)
     @PutMapping(RESOURCE_URL)
     public ResponseEntity<UserDto> put(@Valid @RequestBody UserDto userDto, HttpServletRequest request) {

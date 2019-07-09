@@ -19,4 +19,12 @@ public class RoleDto extends AbstractDto implements Serializable {
         super(role);
         this.name = role.getName();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 } // class RoleDto

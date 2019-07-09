@@ -7,8 +7,8 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.Set;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+//@Data
+//@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "roles")
 public class Role extends AbstractEntity {
@@ -16,7 +16,25 @@ public class Role extends AbstractEntity {
     private String name;
 
     @ToString.Exclude
-    @EqualsAndHashCode.Exclude
+//    @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     private Set<User> users;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+
 } // class Role
